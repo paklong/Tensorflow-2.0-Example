@@ -3,17 +3,29 @@ from tensorflow import keras, feature_column
 from tensorflow.keras import layers, optimizers
 import pandas as pd
 import numpy as np
+import random
 from sklearn.model_selection import train_test_split
 
- 
-path = "C:/Users/paklo/OneDrive/Desktop/Python/Data/Data.csv"
-path_pre = "C:/Users/paklo/OneDrive/Desktop/Python/Data/pre.csv"
-data = pd.read_csv(path, header = 0)
-data_pre = pd.read_csv(path_pre, header = 0)
 
-train, test = train_test_split(data, test_size=0.2)
-train, val = train_test_split(train, test_size=0.2)
+Num = 5000
+data = {'x1':[random.randint(1, 10) for i in range(Num)],
+		'x2':[random.randint(1, 10) for i in range(Num)],
+		'x3':[random.randint(1, 10) for i in range(Num)],
+		'x4':[random.choice(['A', 'B', 'C']) for i in range(Num)]}
 
+data_pre = {'x1':[1],
+			'x2':[5],
+			'x3':[9],
+			'x4':['A'],
+			'y': [0]}
+
+df = pd.DataFrame(data)
+df_pre = pd.DataFrame(data_pre)
+
+df['y'] = df['x1'] + df['x2'] + df['x3'] + df['x4'].apply(lambda x: 5 if x == 'A' else (10 if x == 'B' else 15) )
+
+train, test = train_test_split(df, test_size=0.2)
+train, val = train_test_split(df, test_size=0.2)
 
 
 def df_to_dataset(dataframe, shuffle=True, batch_size=32):
@@ -39,7 +51,7 @@ batch_size = 1
 train_ds = df_to_dataset(train)
 val_ds = df_to_dataset(val)
 test_ds = df_to_dataset(test)
-data_pre = df_to_dataset(data_pre)
+df_pre = df_to_dataset(df_pre)
 
 
 model = tf.keras.Sequential([
@@ -57,5 +69,4 @@ model.compile(optimizer= tf.keras.optimizers.Adam(0.01),
 model.fit(train_ds, validation_data=val_ds, epochs=5)
 
 
-print (model.predict(data_pre))
-
+print (model.predict(df_pre))
