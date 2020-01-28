@@ -1,6 +1,4 @@
 import tensorflow as tf
-from tensorflow import keras, feature_column
-from tensorflow.keras import layers, optimizers
 import pandas as pd
 import numpy as np
 import random
@@ -25,13 +23,13 @@ train, val = train_test_split(df, test_size=0.2)
 
 
 def df_to_dataset(dataframe, shuffle=True, batch_size=32):
-  dataframe = dataframe.copy()
-  labels = dataframe.pop('y')
-  ds = tf.data.Dataset.from_tensor_slices((dict(dataframe), labels))
-  if shuffle:
-    ds = ds.shuffle(buffer_size=len(dataframe))
-  ds = ds.batch(batch_size)
-  return ds
+    dataframe = dataframe.copy()
+    labels = dataframe.pop('y')
+    ds = tf.data.Dataset.from_tensor_slices((dict(dataframe), labels))
+    if shuffle:
+        ds = ds.shuffle(buffer_size=len(dataframe))
+    ds = ds.batch(batch_size)
+    return ds
 
 x1 = feature_column.numeric_column("x1")
 x2 = feature_column.numeric_column("x2")
@@ -64,5 +62,7 @@ model.compile(optimizer= tf.keras.optimizers.Adam(0.01),
 
 model.fit(train_ds, validation_data=val_ds, epochs=5)
 
-
+for i in df_pre:
+    print (i)
+    
 print (model.predict(df_pre))
