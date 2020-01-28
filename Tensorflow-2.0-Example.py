@@ -11,7 +11,7 @@ data = {'x1':[random.randint(1, 10) for i in range(Num)],
 	'x3':[random.randint(1, 10) for i in range(Num)],
 	'x4':[random.choice(['A', 'B', 'C']) for i in range(Num)]}
 
-data_pre = {'x1':[1], 'x2':[5], 'x3':[9], 'x4':['A'], 'y': [0]}
+data_pre = {'x1':[1], 'x2':[5], 'x3':[9], 'x4':['A'], 'y': [20]}
 
 df = pd.DataFrame(data)
 df_pre = pd.DataFrame(data_pre)
