@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import random
 from sklearn.model_selection import train_test_split
+from tensorflow import feature_column
+from tensorflow.keras import layers
 
 
 Num = 5000
